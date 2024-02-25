@@ -1,8 +1,8 @@
 package com.example.ticket.exception;
 
-public class DuplicateException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
 
-    public DuplicateException(String message) {
+    public BadRequestException(String message) {
         super(message);
     }
 }
