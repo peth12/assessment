@@ -1,2 +1,4 @@
-package com.example.ticket.lottery.exception;public class DuplicateTicketException {
+package com.example.ticket.lottery.exception;
+
+public class DuplicateTicketException {
 }
