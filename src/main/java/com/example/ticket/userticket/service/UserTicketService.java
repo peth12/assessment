@@ -59,6 +59,7 @@ public class UserTicketService {
 
 
 
+
     @Transactional
     public TicketResponse deleteLotteryUser(String userId, String ticketId) {
 
