@@ -22,4 +22,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return new ResponseEntity<>(apiExceptionResponse, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = {NotFoundException.class})
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException notFoundException){
+
+        ApiExceptionResponse apiExceptionResponse = new ApiExceptionResponse(
+                notFoundException.getMessage(),
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now()
+        );
+        return new ResponseEntity<>(apiExceptionResponse, HttpStatus.NOT_FOUND);
+    }
 }
