@@ -4,6 +4,7 @@ package com.example.ticket.userticket.model;
 import com.example.ticket.lottery.model.Lottery;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class UserTicket {
 
     @Id
