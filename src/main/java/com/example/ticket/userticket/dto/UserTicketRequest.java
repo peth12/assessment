@@ -1,4 +1,21 @@
 package com.example.ticket.userticket.dto;
 
-public class UserSummary {
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserTicketRequest {
+
+    private List<String> tickets;
+
+    private Integer count;
+
+    private Integer cost;
+
 }
