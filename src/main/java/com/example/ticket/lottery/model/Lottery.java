@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ import lombok.NoArgsConstructor;
 public class Lottery {
 
     @Id
-    @Column(name = "ticket_id")
+    @Column(name = "ticket_id", length = 6)
     @Size(min = 6, max = 6)
     private String ticket;
 
