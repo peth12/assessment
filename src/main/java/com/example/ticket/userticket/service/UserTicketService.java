@@ -6,6 +6,7 @@ import com.example.ticket.exception.NotFoundException;
 import com.example.ticket.lottery.dto.TicketResponse;
 import com.example.ticket.lottery.model.Lottery;
 import com.example.ticket.lottery.repository.LotteryRepository;
+import com.example.ticket.userticket.dto.UserTicketListResponse;
 import com.example.ticket.userticket.dto.UserTicketResponse;
 import com.example.ticket.userticket.model.UserTicket;
 import com.example.ticket.userticket.repository.UserTicketRepository;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserTicketService {
@@ -25,6 +27,35 @@ public class UserTicketService {
     public UserTicketService(UserTicketRepository userTicketRepository, LotteryRepository lotteryRepository) {
         this.userTicketRepository = userTicketRepository;
         this.lotteryRepository = lotteryRepository;
+    }
+
+    public UserTicketListResponse getLotteriesByUserId(String userId) {
+        if(!userId.matches("\\d{10}"))throw new BadRequestException("userId are numbers only and have 10 digits.");
+
+        UserTicketListResponse userTicketListResponse = new UserTicketListResponse();
+
+
+        List<UserTicket> userTickets = userTicketRepository.findByUserId(userId);
+        List<String> tickets = userTickets.stream()
+                .map(user -> user
+                        .getLottery()
+                        .getTicket())
+                .collect(Collectors.toList()
+                );
+
+        userTicketListResponse.setTickets(tickets);
+        userTicketListResponse.setCount(tickets.size());
+        userTicketListResponse.setCost(calculatePrice(userTickets));
+
+        return userTicketListResponse;
+    }
+
+    private static Integer calculatePrice(List<UserTicket> tickets) {
+        int total = 0;
+        for (UserTicket ticket : tickets) {
+            total += ticket.getLottery().getPrice();
+        }
+        return total;
     }
 
     public UserTicketResponse buyLottery(String userId, String ticketId) {

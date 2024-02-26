@@ -2,14 +2,12 @@ package com.example.ticket.userticket.controller;
 
 
 import com.example.ticket.lottery.dto.TicketResponse;
+import com.example.ticket.userticket.dto.UserTicketListResponse;
 import com.example.ticket.userticket.dto.UserTicketResponse;
 import com.example.ticket.userticket.service.UserTicketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 
@@ -19,6 +17,13 @@ public class UserTicketController {
 
     public UserTicketController(UserTicketService userTicketService) {
         this.userTicketService = userTicketService;
+    }
+
+    @GetMapping("/users/{userId}/lotteries")
+    public ResponseEntity<UserTicketListResponse> getLotteriesByUserId(
+            @PathVariable("userId")
+            String userId) {
+        return new ResponseEntity<>(userTicketService.getLotteriesByUserId(userId), HttpStatus.OK);
     }
 
     @PostMapping("/users/{userId}/lotteries/{ticketId}")
