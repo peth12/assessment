@@ -1,14 +1,12 @@
+# stage-1 build artifacts
+FROM amazoncorretto:17.0.9-alpine3.18 as builder
 
-# the base image
-FROM amazoncorretto:17
-
-# the JAR file path
-ARG JAR_FILE=target/*.jar
-
-# Copy the JAR file from the build context into the Docker image
+WORKDIR /app
 ADD . .
+RUN ["./gradlew", "bootJar"]
 
-CMD apt-get update -y
-
-# Set the default command to run the Java application
-ENTRYPOINT ["java", "-Xmx2048M", "-jar", "/application.jar"]
+# stage-2 running image
+FROM gcr.io/distroless/java17-debian12:latest
+WORKDIR /app
+COPY --from=builder /app/build/libs/ticket-0.0.1-SNAPSHOT.jar posttest-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","posttest-0.0.1-SNAPSHOT.jar"]

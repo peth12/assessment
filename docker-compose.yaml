@@ -1,23 +1,19 @@
 version: '3.8'
 
 services:
-#  app:
-#    image: 'docker-spring-boot-postgres:latest'
-#    build:
-#      context: .
-#    container_name: app
-#    depends_on:
-#      - db
-#    environment:
-#      - POSTGRES_USER=username
-#      - POSTGRES_PASSWORD=password
-#      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5435/lottery
-#      - SPRING_DATASOURCE_USERNAME=username
-#      - SPRING_DATASOURCE_PASSWORD=password
-#      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-#
-#    ports:
-#      - "8080:8080"
+  app:
+    build:
+      context: .
+    restart: on-failure
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/lotteryDB
+    ports:
+      - "8888:8888"
+    networks:
+      - spring-app
 
   db:
     image: postgres
@@ -25,6 +21,12 @@ services:
     environment:
       - POSTGRES_USER=username
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=lottery
+      - POSTGRES_DB=lotteryDB
     ports:
       - "5435:5432"
+    networks:
+      - spring-app
+networks:
+  spring-app:
+volumes:
+  springdata:
