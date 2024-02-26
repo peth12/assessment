@@ -29,7 +29,7 @@ public class LotteryService {
         if(optionalLottery.isPresent()) {
             throw new BadRequestException("Unable to add duplicate ticket numbers.");
         } else {
-            if(lotteryRequest.getTicket().length() != 6 || !lotteryRequest.getTicket().matches("\\d{6}")){
+            if(!lotteryRequest.getTicket().matches("\\d{6}")){
                 throw new BadRequestException("Ticket numbers are numbers only and have 6 digits.");
             }
             return new TicketResponse(lotteryRepository.save(Lottery.builder()
